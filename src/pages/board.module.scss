@@ -1,0 +1,31 @@
+.board {
+  min-height: 500px;
+  min-width: 400px;
+  background-color: lightgray;
+  border: 10px outset;
+  position: relative;
+  display: flex;
+  justify-content: center;
+
+  .scoreboard {
+    width: 90%;
+    height: 90px;
+    border: 10px inset;
+    margin: 10px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .score {
+      width: 80px;
+      height: 85px;
+      background-color: black;
+    }
+
+    .resetBtn {
+      height: 80px;
+      width: 80px;
+    }
+  }
+}
