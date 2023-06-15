@@ -25,6 +25,14 @@
       height: 55px;
       background-color: black;
       border: 2px inset;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+
+      &.flagNum {
+        font-size: 200%;
+      }
     }
 
     .resetBtn {

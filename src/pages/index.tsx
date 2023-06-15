@@ -115,11 +115,62 @@ const Home = () => {
   userInputs.forEach((row, y) => {
     row.forEach((data, x) => {
       if (data === 1 && bombMap[y][x] === 1) {
-        console.log('aaa');
         isGameOver = true;
       }
     });
   });
+
+  let isGameClear = false;
+
+  let gameClearCnt = 0;
+  //ボムマス以外全て剥がしたらクリア判定を出す
+  userInputs.forEach((row, y) => {
+    row.forEach((data, x) => {
+      if (data === 0 || data === 3) {
+        gameClearCnt++;
+      }
+    });
+  });
+  if (gameClearCnt === bombCount) {
+    isGameClear = true;
+  }
+
+  let flagCnt = bombCount;
+  //7セグに表示するための旗をカウントする
+  userInputs.forEach((row, y) => {
+    row.forEach((data, x) => {
+      if (data === 3) flagCnt--;
+    });
+  });
+
+  /**
+   * 盤面をリセットする関数
+   */
+  const resetBoard = () => {
+    setUserInputs([
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]);
+
+    setBombMap([
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]);
+  };
 
   /**
    * クリックした時の処理
@@ -134,8 +185,8 @@ const Home = () => {
       return;
     }
 
-    //ゲームオーバー済みの場合は裏返せない
-    if (isGameOver) {
+    //ゲームオーバーとゲームクリア済みの場合は裏返せない
+    if (isGameOver || isGameClear) {
       return;
     }
 
@@ -242,10 +293,15 @@ const Home = () => {
     <div className={styles.container}>
       <div className={boards.board}>
         <div className={boards.scoreboard}>
-          <div className={boards.score} />
+          <div className={`${boards.score} ${boards.flagNum}`} style={{ color: 'red' }}>
+            {`00${flagCnt}`.slice(-3)}
+          </div>
           <div
             className={boards.resetBtn}
-            style={{ backgroundPositionX: isGameOver ? '-547px' : '-462px' }}
+            style={{
+              backgroundPositionX: isGameOver ? '-547px' : isGameClear ? '-505px' : '-462px',
+            }}
+            onClick={() => resetBoard()}
           />
           <div className={boards.score} />
         </div>
@@ -268,7 +324,17 @@ const Home = () => {
                       userInputs[i][j] === 3
                         ? { backgroundPositionX: '-270px' }
                         : userInputs[i][j] === 1
-                        ? { backgroundPositionX: `${-(x * 30) + 30}px` }
+                        ? bombMap[i][j] === 1
+                          ? { backgroundPositionX: `${-(x * 30) + 30}px`, backgroundColor: 'red' }
+                          : { backgroundPositionX: `${-(x * 30) + 30}px` }
+                        : isGameOver
+                        ? bombMap[i][j] === 1
+                          ? { backgroundPositionX: '-300px' }
+                          : { backgroundPositionX: `30px` }
+                        : isGameClear
+                        ? bombMap[i][j] === 1
+                          ? { backgroundPositionX: '-270px' }
+                          : { backgroundPositionX: `30px` }
                         : { backgroundPositionX: `30px` }
                     }
                   />
