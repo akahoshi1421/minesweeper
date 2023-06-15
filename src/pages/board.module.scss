@@ -1,31 +1,82 @@
 .board {
   min-height: 500px;
-  min-width: 400px;
+  width: 400px;
   background-color: lightgray;
   border: 10px outset;
   position: relative;
   display: flex;
+  flex-wrap: wrap;
+
   justify-content: center;
 
   .scoreboard {
     width: 90%;
     height: 90px;
-    border: 10px inset;
+    border: 6px inset;
     margin: 10px;
 
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
+    position: relative;
 
     .score {
       width: 80px;
-      height: 85px;
+      height: 55px;
       background-color: black;
+      border: 2px inset;
     }
 
     .resetBtn {
-      height: 80px;
-      width: 80px;
+      height: 50px;
+      width: 50px;
+      border: 5px outset;
+      background: url('~/assets/images/icons.png') no-repeat;
+      background-position: -462px center;
+      background-size: auto 105%;
+
+      &:active {
+        border: 5px inset;
+        background-position: -461px 1px;
+      }
+    }
+  }
+
+  .cells {
+    width: 90%;
+    height: 64%;
+    border: 6px inset;
+
+    position: relative;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    .cell {
+      width: 33px;
+      height: 33px;
+      border: 3px outset;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      &:active {
+        border: none;
+        background-color: #d1cece;
+      }
+
+      &.clicked {
+        border: 1px solid #545353;
+        background-color: #b3b1b1;
+      }
+
+      .cellImg {
+        height: 100%;
+        width: 100%;
+        background: url('~/assets/images/icons.png') no-repeat;
+        background-position-x: 0px;
+      }
     }
   }
 }
