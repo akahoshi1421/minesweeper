@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import boards from './board.module.scss';
 import styles from './index.module.scss';
 
@@ -109,6 +109,18 @@ const Home = () => {
     return userInputData;
   };
 
+  // const [timer, setTimer] = useState(0);
+
+  // const intervalRef = useRef(null);
+  // const start = useCallback(() => {
+  //   if(intervalRef.current !== null){
+  //     return;
+  //   }
+  //   intervalRef.current = setInterval(() => {
+  //     setTimer(c => c + 1)
+  //   }, 1000)
+  // }, [])
+
   let isGameOver = false;
 
   //ボムを踏んだ瞬間にゲームオーバーする処理
@@ -170,6 +182,8 @@ const Home = () => {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     ]);
+
+    setCount(0);
   };
 
   /**
@@ -221,7 +235,10 @@ const Home = () => {
         newBombMap[oneNewBomb[0]][oneNewBomb[1]] = 1;
       }
 
+      // setTimer(1);
+
       setBombMap(newBombMap);
+      setCount(1);
 
       newBombMap.forEach((row: any[], y: number) => {
         row.forEach((bomb, x) => {
@@ -289,6 +306,21 @@ const Home = () => {
     return false;
   };
 
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const isPlaying = userInputs.some((row) => row.some((input) => input !== 0));
+    if (isPlaying && !isGameOver) {
+      const timer = setInterval(() => {
+        setCount((prevCount) => prevCount + 1);
+      }, 1000);
+
+      return () => {
+        clearInterval(timer);
+      };
+    }
+  }, [count]);
+
   return (
     <div className={styles.container}>
       <div className={boards.board}>
@@ -303,7 +335,9 @@ const Home = () => {
             }}
             onClick={() => resetBoard()}
           />
-          <div className={boards.score} />
+          <div className={`${boards.score} ${boards.flagNum}`} style={{ color: 'red' }}>
+            {count}
+          </div>
         </div>
 
         <div className={boards.cells}>
