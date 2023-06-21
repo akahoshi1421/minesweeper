@@ -908,7 +908,7 @@ const Home = () => {
 
   useEffect(() => {
     const isPlaying = userInputs.some((row) => row.some((input) => input !== 0));
-    if (isPlaying && !isGameOver) {
+    if (isPlaying && !isGameOver && !isGameClear) {
       const timer = setInterval(() => {
         setCount((prevCount) => prevCount + 1);
       }, 1000);
