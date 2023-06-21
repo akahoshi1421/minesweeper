@@ -319,6 +319,7 @@ const Home = () => {
         clearInterval(timer);
       };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [count]);
 
   return (
