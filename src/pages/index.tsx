@@ -3,10 +3,6 @@ import boards from './board.module.scss';
 import styles from './index.module.scss';
 
 const Home = () => {
-  document.oncontextmenu = function () {
-    return false;
-  };
-
   const [globalDifficulty, setGlobalDifficulty] = useState(1);
 
   let boardWidth = 400;
@@ -895,7 +891,8 @@ const Home = () => {
    * @param y y座標
    * @param x x座標
    */
-  const setFlag = (y: number, x: number) => {
+  const setFlag = (y: number, x: number, e: any) => {
+    e.preventDefault();
     const newUserInputs = JSON.parse(JSON.stringify(userInputs));
     if (newUserInputs[y][x] === 0) {
       newUserInputs[y][x] = 3;
@@ -1060,7 +1057,7 @@ const Home = () => {
                   }
                   key={`${i}-${j}`}
                   onClick={() => clickStone(i, j)}
-                  onContextMenu={() => setFlag(i, j)}
+                  onContextMenu={(e) => setFlag(i, j, e)}
                 >
                   <div
                     className={boards.cellImg}
