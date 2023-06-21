@@ -3,6 +3,10 @@ import boards from './board.module.scss';
 import styles from './index.module.scss';
 
 const Home = () => {
+  document.oncontextmenu = function () {
+    return false;
+  };
+
   const [globalDifficulty, setGlobalDifficulty] = useState(1);
 
   let boardWidth = 400;
