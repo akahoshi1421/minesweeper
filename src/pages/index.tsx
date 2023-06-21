@@ -10,6 +10,7 @@ const Home = () => {
   let cellsHeight = '64%';
 
   // -1は初回検知用
+  //0 → 未クリック、1 → クリック済み、 3 → 旗
   const [userInputs, setUserInputs] = useState<(0 | 1 | 2 | 3)[][]>([
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -753,9 +754,42 @@ const Home = () => {
    * クリックした時の処理
    * @param y y座標
    * @param x x座標
+   * @param nextTurn 既にひっくり返されている数字をクリックする時隣接をひっくり返す機能を使うか
    */
-  const clickStone = (y: number, x: number) => {
+  const clickStone = (y: number, x: number, nextTurn = true) => {
     const newUserInputBoard = JSON.parse(JSON.stringify(userInputs));
+
+    //既にクリックしている場合
+    if (newUserInputBoard[y][x] === 1 && nextTurn) {
+      const num = board[y][x];
+
+      let flagCnt = 0;
+
+      const notFlagCoords: number[][] = [];
+
+      //周辺にある旗の数とnumが一致しているかどうか調べていく
+      for (const oneDir of directions) {
+        try {
+          const cellData = newUserInputBoard[y + oneDir[0]][x + oneDir[1]];
+          if (cellData === 3) {
+            flagCnt++;
+          } else {
+            notFlagCoords.push([y + oneDir[0], x + oneDir[1]]);
+          }
+        } catch (e) {
+          e;
+        }
+      }
+
+      if (num !== 0 && num === flagCnt) {
+        for (const notFlagCell of notFlagCoords) {
+          newUserInputBoard[notFlagCell[0]][notFlagCell[1]] = 1;
+          setUserInputs(newUserInputBoard);
+        }
+
+        return;
+      }
+    }
 
     //旗の場合は裏返せない
     if (newUserInputBoard[y][x] === 3) {
