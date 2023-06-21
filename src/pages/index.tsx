@@ -322,12 +322,101 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [count]);
 
+  const ledFlag = [
+    [1, 0, 0, 1, 0, 1, 1],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+  ];
+
+  const ledTime = [
+    [1, 0, 0, 1, 0, 1, 1],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+  ];
+
+  //0 [1, 0, 1, 1, 1, 1, 1],
+  //1 [0, 0, 0, 0, 0, 1, 1],
+  //2 [1, 1, 1, 0, 1, 1, 0],
+  //3 [1, 1, 1, 0, 0, 1, 1],
+  //4 [0, 1, 0, 1, 0, 1, 1],
+  //5 [1, 1, 1, 1, 0, 0, 1],
+  //6 [1, 1, 1, 1, 1, 0, 1],
+  //7 [1, 0, 0, 1, 0, 1, 1],
+  //8 [1, 1, 1, 1, 1, 1, 1],
+  //9 [1, 1, 1, 1, 0, 1, 1],
+
+  /**
+   * 数字をLED化させる
+   *
+   * @param n LED化したい数字
+   * @param led 対象のledの配列
+   */
+  const setLed = (n: number, led: number[][]) => {
+    const flagStr = `00${n}`.slice(-3).split('');
+    flagStr.forEach((one, i) => {
+      switch (one) {
+        case '0':
+          led[i] = [1, 0, 1, 1, 1, 1, 1];
+          break;
+        case '1':
+          led[i] = [0, 0, 0, 0, 0, 1, 1];
+          break;
+        case '2':
+          led[i] = [1, 1, 1, 0, 1, 1, 0];
+          break;
+        case '3':
+          led[i] = [1, 1, 1, 0, 0, 1, 1];
+          break;
+        case '4':
+          led[i] = [0, 1, 0, 1, 0, 1, 1];
+          break;
+        case '5':
+          led[i] = [1, 1, 1, 1, 0, 0, 1];
+          break;
+        case '6':
+          led[i] = [1, 1, 1, 1, 1, 0, 1];
+          break;
+        case '7':
+          led[i] = [1, 0, 0, 1, 0, 1, 1];
+          break;
+        case '8':
+          led[i] = [1, 1, 1, 1, 1, 1, 1];
+          break;
+        case '9':
+          led[i] = [1, 1, 1, 1, 0, 1, 1];
+          break;
+        case '-':
+          led[i] = [0, 1, 0, 0, 0, 0, 0];
+          break;
+        default:
+          break;
+      }
+    });
+  };
+
+  setLed(flagCnt, ledFlag);
+  setLed(count, ledTime);
+
   return (
     <div className={styles.container}>
       <div className={boards.board}>
         <div className={boards.scoreboard}>
-          <div className={`${boards.score} ${boards.flagNum}`} style={{ color: 'red' }}>
-            {`00${flagCnt}`.slice(-3)}
+          <div className={`${boards.score} ${boards.flagNum}`}>
+            {ledFlag.map((led, i) => {
+              return (
+                <div key={`led-${i}`} className={boards.led}>
+                  {led.map((bit, j) => {
+                    return (
+                      <div
+                        className={boards.bit}
+                        key={`bit-${i}-${j}`}
+                        style={{ backgroundColor: bit === 0 ? '#780404' : 'red' }}
+                      />
+                    );
+                  })}
+                </div>
+              );
+            })}
           </div>
           <div
             className={boards.resetBtn}
@@ -336,8 +425,22 @@ const Home = () => {
             }}
             onClick={() => resetBoard()}
           />
-          <div className={`${boards.score} ${boards.flagNum}`} style={{ color: 'red' }}>
-            {count}
+          <div className={`${boards.score} ${boards.flagNum}`}>
+            {ledTime.map((led, i) => {
+              return (
+                <div key={`led-${i}`} className={boards.led}>
+                  {led.map((bit, j) => {
+                    return (
+                      <div
+                        className={boards.bit}
+                        key={`bit-${i}-${j}`}
+                        style={{ backgroundColor: bit === 0 ? '#780404' : 'red' }}
+                      />
+                    );
+                  })}
+                </div>
+              );
+            })}
           </div>
         </div>
 

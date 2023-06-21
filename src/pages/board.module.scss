@@ -33,6 +33,71 @@
       &.flagNum {
         font-size: 200%;
       }
+
+      .led {
+        position: relative;
+        width: 32%;
+        height: 100%;
+      }
+
+      .bit {
+        position: absolute;
+        background-color: #780404;
+
+        &:nth-child(1) {
+          top: 4%;
+          left: 10%;
+          width: 20px;
+          height: 7px;
+          clip-path: polygon(0 0, 100% 0, 73% 100%, 27% 100%);
+        }
+        &:nth-child(2) {
+          top: 42%;
+          left: 10%;
+          width: 20px;
+          height: 7px;
+          clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+        &:nth-child(3) {
+          bottom: 4%;
+          left: 10%;
+          width: 20px;
+          height: 7px;
+          clip-path: polygon(27% 0%, 73% 0%, 100% 100%, 0% 100%);
+        }
+        &:nth-child(4) {
+          top: 21%;
+          left: -20%;
+          width: 20px;
+          height: 7px;
+          transform: rotate(90deg);
+          clip-path: polygon(27% 0%, 73% 0%, 100% 100%, 0% 100%);
+        }
+        &:nth-child(5) {
+          top: 64%;
+          left: -20%;
+          width: 20px;
+          height: 7px;
+          transform: rotate(90deg);
+          clip-path: polygon(27% 0%, 73% 0%, 100% 100%, 0% 100%);
+        }
+        &:nth-child(6) {
+          top: 21%;
+          left: 38%;
+          width: 20px;
+          height: 7px;
+          transform: rotate(-90deg);
+          clip-path: polygon(27% 0%, 73% 0%, 100% 100%, 0% 100%);
+        }
+        &:nth-child(7) {
+          top: 64%;
+          left: 38%;
+          width: 20px;
+          height: 7px;
+          transform: rotate(-90deg);
+          clip-path: polygon(27% 0%, 73% 0%, 100% 100%, 0% 100%);
+        }
+      }
     }
 
     .resetBtn {
